@@ -1,5 +1,5 @@
 # software-architecture-mvc
- We design a social networking app named as ”Say it on Social” using ScalaPlay framework. The implementation follows the Model-View-Controller pattern. The basic working of the application includes the following functionalities, 
+Designed a social networking app named as ”Say it on Social” using ScalaPlay framework. The implementation follows the Model-View-Controller pattern. The basic working of the application includes the following functionalities, 
 1. A user can register on the web application 
 2. A user can login using the correct username and password on the web application 
 3. As soon as a user logins the application, he/she can see the explore page with posts posted by the user profiles he/she is following along with the hashtags (topics), he/ she is sub- scribed to. 
