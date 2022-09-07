@@ -1,0 +1,26 @@
+@(topic:String, allPosts: List[Post], commentForm: Form[Comment], likeForm:Form[LikeAndDelete],
+        subscribeTopicForm:Form[Subscribe])(implicit request: RequestHeader, flash: Flash, session: Session,
+        messagesProvider: MessagesProvider)
+@main("Say It On Social", session){
+
+    @flash.get("info")
+
+    <div id="sortbydateorlikes">
+        <a href = "@routes.PostController.sortedTopicPosts(topic, "Date")">Date</a>
+        <a href = "@routes.PostController.sortedTopicPosts(topic, "Like")">Likes</a>
+    </div>
+
+    <div id="followTopic">
+    @b3.vertical.formCSRF(action = routes.PostController.addTopic(topic)) { implicit vfc =>
+        @b3.hidden(subscribeTopicForm("followTopic"), Symbol("value") -> topic)
+        <button>
+            <img src="@routes.Assets.versioned(s"images/subscribe.png")" width="50" height="20">
+    </button>
+    }
+    </div>
+
+    @for(currentpost <- allPosts) {
+        @postView.postGeneralStructure(currentpost, commentForm, likeForm)
+    }
+
+}

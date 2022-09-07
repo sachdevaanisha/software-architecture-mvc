@@ -1,0 +1,65 @@
+@(post: Post, commentForm: Form[Comment], likeForm:Form[LikeAndDelete])(implicit request: RequestHeader, flash: Flash, session: Session,
+                                        messagesProvider: MessagesProvider)
+    <div id = "@post.postId">
+        <div class="card">
+            <h5 class="card-title text-center">@post.description</h5>
+
+            <h7 class="card-title text-center"> Topic : <a href="@routes.PostController.sortedTopicPosts(post.topic, "Date")">
+            @post.topic</a></h7>
+
+            <h6 class="card-title text-center"> Uploaded By : <a href="@routes.PostController.sortedUserProfilePosts(post.postUploadedBy, "Date")">
+            @post.postUploadedBy</a></h6>
+
+            <div class="text-center">
+                @if(post.imageFileName.nonEmpty){
+                <img src="@routes.Assets.versioned("images/" + post.postUploadedBy + "/" + "postImages/" +post.imageFileName)"
+                alt="Card image cap" width="200" height="200">
+                }
+            </div>
+
+            <hr>
+
+            @b3.vertical.formCSRF(action = routes.PostController.addLike(post.postId, request.uri)) { implicit vfc =>
+                @b3.hidden(likeForm("postId"), Symbol("value") -> post.postId)
+                <button>
+                    <img src="@routes.Assets.versioned(s"images/like.png")" width="20">
+                    @post.getLikeCount
+                </button>
+            }
+
+            Uploaded On : @post.date
+
+
+            <hr>
+
+
+            <div class="card">
+                <div class="card-header">
+            Comments :
+                </div>
+                <ul class="list-group list-group-flush">
+                    <div>@postView.comments(post.comments)</div>
+
+
+
+                    <br>
+
+        @b3.vertical.formCSRF(action = routes.PostController.addComment(post.postId,request.uri),Symbol("enctype") -> "multipart/form-data") {implicit vfc =>
+            @b3.hidden(commentForm("postId"), Symbol("value") -> post.postId)
+            @b3.hidden(commentForm("commentedBy"), Symbol("value") -> session.get(models.Global.SESSION_USERNAME_KEY))
+
+
+            <span class="text-center"> @b3.text(commentForm("commentText"),'_label -> "Comment") </span>
+
+            @b3.file(commentForm("image"),'_label -> "Image")
+            <br>
+            <span class="text-center"> @b3.submit(){<span class="glyphicon glyphicon-ok"></span> Submit}</span>
+        }
+                </ul>
+            </div>
+
+        </div>
+
+                @*<div> @post.date </div>*@
+
+</div>

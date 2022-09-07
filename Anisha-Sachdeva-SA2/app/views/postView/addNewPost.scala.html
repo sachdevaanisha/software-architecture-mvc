@@ -1,0 +1,18 @@
+@(postForm: Form[Post])(implicit request: RequestHeader, flash: Flash, session: Session, messagesProvider: MessagesProvider)
+
+<div class="container-fluid">
+@main("Say It On Social", session) {
+    <h2 align="center"> Share a Post </h2>
+
+    @b3.vertical.formCSRF(action = routes.PostController.addNewPost, Symbol("enctype") -> "multipart/form-data"){implicit vfc =>
+        @b3.text(postForm("description"),  '_label -> "Post Description")
+        @b3.text(postForm("topic"), '_label -> "Topic Hashtag")
+        <br>
+        @b3.file(postForm("image"), '_label -> "Image")
+        <br>
+        <span class="text-center"> @b3.submit(){<span class="glyphicon glyphicon-ok"></span> Post}</span>
+    }
+
+}
+
+</div>

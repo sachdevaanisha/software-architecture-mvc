@@ -1,0 +1,38 @@
+@(username:String, allPosts: List[Post], commentForm: Form[Comment],
+        likeForm:Form[LikeAndDelete], followUserForm:Form[Follow], deleteForm:Form[LikeAndDelete])(implicit request: RequestHeader, flash: Flash, session: Session, messagesProvider: MessagesProvider)
+@main("Say It On Social", session){
+
+    @flash.get("info")
+
+    <div id="sortbydateorlikes">
+        <a href = "@routes.PostController.sortedUserProfilePosts(username, "Date")">Date</a>
+        <a href = "@routes.PostController.sortedUserProfilePosts(username, "Like")">Likes</a>
+    </div>
+
+    <div id="followUser">
+    @b3.vertical.formCSRF(action = routes.PostController.addFollowing(username)) { implicit vfc =>
+            @b3.hidden(followUserForm("followUsername"), Symbol("value") -> username)
+      <button>
+          <img src="@routes.Assets.versioned(s"images/follow.png")" width="30" height="30">
+      </button>
+    }
+    </div>
+
+    @for(currentpost <- allPosts) {
+        @postView.postGeneralStructure(currentpost, commentForm, likeForm)
+
+        @if(username == request.session.get(Global.SESSION_USERNAME_KEY).get){
+        <div id="deletePost">
+        @b3.vertical.formCSRF(action = routes.PostController.deletePost(currentpost.postId)) { implicit vfc =>
+            @b3.hidden(deleteForm("postId"), Symbol("value") -> currentpost.postId)
+            <button>
+                <img src="@routes.Assets.versioned(s"images/delete.png")" width="30" height="30">
+            </button>
+        }
+        </div>
+    }
+    }
+
+}
+
+

@@ -1,0 +1,14 @@
+@(allComments: List[Comment])(implicit request: RequestHeader, flash: Flash, session: Session)
+
+<li class="list-group-item">
+    @for(comment <- allComments) {
+        <a href="@routes.PostController.sortedUserProfilePosts(comment.commentedBy, "Date")">@comment.commentedBy</a>
+        <span>@comment.commentText</span>
+        <div>
+            @if(comment.commentImage.nonEmpty) {
+            <img src="@routes.Assets.versioned("images/" + comment.commentedBy + "/" + "commentImages/" + comment.commentImage)"
+            width="50" height="50"> }
+        </div>
+
+    }
+</li>

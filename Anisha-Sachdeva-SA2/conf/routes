@@ -1,0 +1,29 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# An example controller showing a sample home page
+GET /                               controllers.HomeController.index
+GET     /login                           controllers.LoginController.login
+POST    /authorizedLogin            controllers.LoginController.authorizedLogin
+GET    /registerUser                controllers.LoginController.newUserLogin
+POST    /registerUserandRedirect    controllers.LoginController.newUserRegistration
+GET    /displayPost/:sortingOption                 controllers.PostController.displayPost(sortingOption: String)
+GET /logout                         controllers.LoginController.logout
+GET /showNewPost                    controllers.PostController.showNewPost
+POST /addNewPost                      controllers.PostController.addNewPost
+POST /addComment/:postId/:requestURI  controllers.PostController.addComment(postId:Long, requestURI: String)
+GET /showOwnProfile                   controllers.PostController.showOwnProfile
+GET /searchRelatedPosts                controllers.PostController.searchRelatedPosts
+GET /sortedUserProfilePosts/:username/:sortingOption       controllers.PostController.sortedUserProfilePosts(username:String, sortingOption:String)
+GET /sortedTopicPosts/:topic/:sortingOption                controllers.PostController.sortedTopicPosts(topic:String, sortingOption:String)
+POST /addLike/:postId/:requestURI           controllers.PostController.addLike(postId: Long, requestURI: String)
+POST /addFollowing/:followingUser           controllers.PostController.addFollowing(followingUser: String)
+POST /addTopic/:followingTopic           controllers.PostController.addTopic(followingTopic: String)
+POST /deletePost/:postId                          controllers.PostController.deletePost(postId: Long)
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

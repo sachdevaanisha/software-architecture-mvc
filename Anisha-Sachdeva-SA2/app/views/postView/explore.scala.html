@@ -1,0 +1,33 @@
+@(allPosts: List[Post], commentForm: Form[Comment], searchForm: Form[Search],likeForm:Form[LikeAndDelete])(implicit request: RequestHeader,
+                                            flash: Flash, session: Session, messagesProvider: MessagesProvider)
+
+@main("Say It On Social", session) {
+    <div class=" container-fluid row">
+
+
+        <div class = "col-8">
+
+    <div id="sortbydateorlikes">
+        <a href = "@routes.PostController.displayPost("Date")">Date</a>
+        <a href = "@routes.PostController.displayPost("Like")">Likes</a>
+    </div>
+
+    @for(currentpost <- allPosts) {
+        @postView.postGeneralStructure(currentpost, commentForm, likeForm)
+    }
+        </div>
+
+        <div class = "col-4">
+
+    <div id="searchUser">
+        @flash.get("info")
+    @b3.vertical.formCSRF(action = routes.PostController.searchRelatedPosts) {implicit vfc =>
+        @b3.text(searchForm("searchKeyword"), '_label -> "Keyword to search")
+        @b3.submit(){<span class="glyphicon glyphicon-ok"></span> Search}
+    }
+    </div>
+
+        </div>
+
+    </div>
+}

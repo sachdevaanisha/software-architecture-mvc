@@ -1,0 +1,21 @@
+@(registrationForm: Form[User])(implicit request: MessagesRequestHeader, flash: Flash, session: Session)
+
+@main("Say It On Social", session) {
+    <fieldset>
+        <div class="h-100 d-flex align-items-center justify-content-center">
+
+            <div class="col-md-3 text-center ">
+                <h1>Register</h1>
+
+    @b3.vertical.formCSRF(action = routes.LoginController.newUserRegistration) {implicit vfc =>
+        @b3.text(registrationForm("Username"), '_label -> "Username")
+        @b3.password(registrationForm("Password"), '_label -> "Password")
+        <br>
+        @b3.submit(){<span class="glyphicon glyphicon-ok"></span> Register}
+    }
+            </div>
+        </div>
+    @flash.get("info")
+
+    </fieldset>
+}
